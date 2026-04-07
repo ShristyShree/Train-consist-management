@@ -1,45 +1,32 @@
-import java.util.Arrays;
+import java.util.Scanner;
 
-public class TrainConsistManagement {
+public class TrainConsistManagement{
+
+    public static boolean linearSearch(String[] bogieIds, String key) {
+        for (int i = 0; i < bogieIds.length; i++) {
+            if (bogieIds[i].equals(key)) {
+                return true;
+            }
+        }
+        return false;
+    }
 
     public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
 
-        // Example bogie type names
-        String[] bogieNames = {"Sleeper", "AC Chair", "First Class", "General", "Luxury"};
+        String[] bogieIds = {"BG101","BG205","BG309","BG412","BG550"};
 
-        System.out.println("Before Sorting:");
-        System.out.println(Arrays.toString(bogieNames));
+        System.out.println("Enter bogie ID to search:");
+        String key = sc.nextLine();
 
-        // Sorting using built-in method
-        Arrays.sort(bogieNames);
+        boolean found = linearSearch(bogieIds, key);
 
-        System.out.println("After Sorting:");
-        System.out.println(Arrays.toString(bogieNames));
+        if (found) {
+            System.out.println("Bogie ID found");
+        } else {
+            System.out.println("Bogie ID not found");
+        }
 
-        // Additional test cases
-
-        // Unsorted input
-        String[] unsorted = {"Luxury", "General", "Sleeper", "AC Chair"};
-        Arrays.sort(unsorted);
-        System.out.println("Unsorted Input Sorted:");
-        System.out.println(Arrays.toString(unsorted));
-
-        // Already sorted array
-        String[] sorted = {"AC Chair", "First Class", "General"};
-        Arrays.sort(sorted);
-        System.out.println("Already Sorted:");
-        System.out.println(Arrays.toString(sorted));
-
-        // Duplicate bogie names
-        String[] duplicates = {"Sleeper", "AC Chair", "Sleeper", "General"};
-        Arrays.sort(duplicates);
-        System.out.println("With Duplicates:");
-        System.out.println(Arrays.toString(duplicates));
-
-        // Single element array
-        String[] single = {"Sleeper"};
-        Arrays.sort(single);
-        System.out.println("Single Element:");
-        System.out.println(Arrays.toString(single));
+        sc.close();
     }
 }
