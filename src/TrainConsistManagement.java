@@ -1,86 +1,73 @@
-// Custom Runtime Exception
-class CargoSafetyException extends RuntimeException {
-    public CargoSafetyException(String message) {
-        super(message);
-    }
-}
+class PassengerBogieSorter {
 
-// Abstract Goods Bogie
-abstract class GoodsBogie {
-    protected String bogieId;
-    protected String shape;
-    protected String cargo;
+    // Method to perform Bubble Sort
+    public static void bubbleSort(int[] capacities) {
+        int n = capacities.length;
 
-    public GoodsBogie(String bogieId, String shape) {
-        this.bogieId = bogieId;
-        this.shape = shape;
-    }
+        // Outer loop for passes
+        for (int i = 0; i < n - 1; i++) {
 
-    public void assignCargo(String cargoType) {
-        try {
-            // Validation logic
-            if (shape.equalsIgnoreCase("Rectangular") &&
-                    cargoType.equalsIgnoreCase("Petroleum")) {
-                throw new CargoSafetyException(
-                        "Unsafe cargo! Petroleum cannot be assigned to Rectangular bogie: " + bogieId
-                );
+            // Inner loop for comparisons
+            for (int j = 0; j < n - 1 - i; j++) {
+
+                // Compare adjacent elements
+                if (capacities[j] > capacities[j + 1]) {
+
+                    // Swap logic
+                    int temp = capacities[j];
+                    capacities[j] = capacities[j + 1];
+                    capacities[j + 1] = temp;
+                }
             }
-
-            // Assign cargo if safe
-            this.cargo = cargoType;
-            System.out.println("✅ Cargo '" + cargoType + "' assigned to Bogie " + bogieId);
-
-        } catch (CargoSafetyException e) {
-            // Handle exception gracefully
-            System.out.println("❌ ERROR: " + e.getMessage());
-
-        } finally {
-            // Always executes
-            System.out.println("ℹ️ Assignment attempt completed for Bogie " + bogieId);
         }
     }
 
-    public void displayDetails() {
-        System.out.println("Bogie ID: " + bogieId +
-                ", Shape: " + shape +
-                ", Cargo: " + (cargo != null ? cargo : "None"));
+    // Utility method to print array
+    public static void display(int[] arr) {
+        for (int value : arr) {
+            System.out.print(value + " ");
+        }
+        System.out.println();
     }
-}
 
-// Rectangular Bogie
-class RectangularBogie extends GoodsBogie {
-    public RectangularBogie(String bogieId) {
-        super(bogieId, "Rectangular");
-    }
-}
-
-// Cylindrical Bogie
-class CylindricalBogie extends GoodsBogie {
-    public CylindricalBogie(String bogieId) {
-        super(bogieId, "Cylindrical");
-    }
-}
-
-// Main Application
-public class TrainConsistManagement {
     public static void main(String[] args) {
 
-        // Create bogies
-        GoodsBogie bogie1 = new RectangularBogie("RB1");
-        GoodsBogie bogie2 = new CylindricalBogie("CB1");
+        // Example passenger bogie capacities
+        int[] capacities = {72, 56, 24, 70, 60};
 
-        // Safe assignment
-        bogie2.assignCargo("Petroleum");   // Should succeed
+        System.out.println("Before Sorting:");
+        display(capacities);
 
-        // Unsafe assignment
-        bogie1.assignCargo("Petroleum");   // Should trigger exception
+        // Perform Bubble Sort
+        bubbleSort(capacities);
 
-        // Another safe assignment to prove continuation
-        bogie1.assignCargo("Grain");
+        System.out.println("After Sorting:");
+        display(capacities);
 
-        // Display final state
-        System.out.println("\n--- Final Bogie Details ---");
-        bogie1.displayDetails();
-        bogie2.displayDetails();
+        // Additional test cases
+
+        // Already sorted array
+        int[] sortedArray = {24, 56, 60, 70, 72};
+        bubbleSort(sortedArray);
+        System.out.println("Already Sorted Array:");
+        display(sortedArray);
+
+        // Duplicate values
+        int[] duplicateArray = {72, 56, 56, 24};
+        bubbleSort(duplicateArray);
+        System.out.println("With Duplicates:");
+        display(duplicateArray);
+
+        // Single element
+        int[] singleElement = {50};
+        bubbleSort(singleElement);
+        System.out.println("Single Element Array:");
+        display(singleElement);
+
+        // All equal values
+        int[] equalValues = {40, 40, 40};
+        bubbleSort(equalValues);
+        System.out.println("All Equal Values:");
+        display(equalValues);
     }
 }
